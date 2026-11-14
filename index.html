@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e1014">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Conformer">
+<meta name="description" content="A daily puzzle: name the drug from its slowly turning 3D molecule.">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<meta name="color-scheme" content="dark light">
+<title>Conformer</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/pwa.css">
+<script type="module" src="js/main.js"></script>
+<script src="js/pwa.js" defer></script>
+</head>
+<body>
+<div id="app" data-state="loading">
+  <canvas id="stage" role="img" aria-label="3D molecule"></canvas>
+
+  <header class="bar">
+    <div class="brand">
+      <span class="wordmark">
+        <svg class="mark" viewBox="0 0 24 24" aria-hidden="true">
+          <defs>
+            <radialGradient id="mark-o" cx=".36" cy=".32" r=".75">
+              <stop offset="0" stop-color="#fff" stop-opacity=".75"/>
+              <stop offset=".35" stop-color="currentColor" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <g class="mark-bonds"><path d="M5.7 15.6 12 10.6 18.3 15.6"/></g>
+          <circle class="mark-h h1" cx="5.7" cy="15.6" r="2.3"/>
+          <circle class="mark-h h2" cx="18.3" cy="15.6" r="2.3"/>
+          <circle class="mark-o" cx="12" cy="10.6" r="4.1"/>
+          <circle class="mark-shine" cx="12" cy="10.6" r="4.1" fill="url(#mark-o)"/>
+        </svg><span class="word">Conformer</span>
+      </span>
+      <span class="meta" id="meta"></span>
+      <button class="mode-back" id="btn-today" type="button" hidden>
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M9.5 3.5 5 8l4.5 4.5"/></svg><span>Today</span>
+      </button>
+    </div>
+    <div class="tools">
+      <span class="streak" id="streak" title="Streak" hidden>
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8.6 1.2c.3 2.2-.9 3.3-2 4.6C5.4 7.1 4.5 8.4 4.5 10.2 4.5 12.6 6 14.6 8 14.6s3.5-1.6 3.5-4c0-1.3-.5-2.3-1.1-3.1-.1.9-.6 1.6-1.3 1.8.6-2.6-.1-6.2-.5-8.1z"/></svg>
+        <span class="num" id="streak-num">0</span>
+      </span>
+      <button class="icon" id="btn-h" type="button" aria-pressed="false" title="Show hydrogens" aria-label="Show hydrogens"><span class="glyph-h">H</span></button>
+      <button class="icon" id="btn-theme" type="button" title="Switch theme" aria-label="Switch theme">
+        <svg class="i-moon" viewBox="0 0 20 20" aria-hidden="true"><path d="M15.5 12.6A6.5 6.5 0 0 1 7.4 4.5a6.5 6.5 0 1 0 8.1 8.1z"/></svg>
+        <svg class="i-sun" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.4"/><path d="M10 1.8v2.1M10 16.1v2.1M1.8 10h2.1M16.1 10h2.1M4.2 4.2l1.5 1.5M14.3 14.3l1.5 1.5M4.2 15.8l1.5-1.5M14.3 5.7l1.5-1.5"/></svg>
+      </button>
+      <button class="icon" id="btn-archive" type="button" title="Archive and practice" aria-label="Archive and practice" aria-expanded="false" aria-controls="archive" aria-haspopup="dialog">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3.2" y="4.4" width="13.6" height="12.4" rx="2.6"/><path d="M3.2 8.4h13.6M7 2.8v3M13 2.8v3"/></svg>
+      </button>
+      <button class="icon" id="btn-stats" type="button" aria-haspopup="dialog" title="Statistics" aria-label="Statistics" aria-expanded="false" aria-controls="stats">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 16V10M8 16V5M12 16V8M16 16V12"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="status" id="status" aria-live="polite">
+    <div class="loading">
+      <div class="ring" aria-hidden="true"></div>
+      <p>Folding…</p>
+    </div>
+    <div class="error card" hidden>
+      <h2>Couldn’t load the molecules</h2>
+      <p>Conformer needs a connection the very first time it opens. After that it plays offline.</p>
+      <p class="fine">Check your connection and reload.</p>
+    </div>
+  </div>
+
+  <section class="dock" id="dock" aria-label="Guess">
+    <p class="coach" id="coach" hidden aria-hidden="true"><span>drag to spin</span><i></i><span>type to guess</span></p>
+    <div class="play" id="play">
+      <ol class="hints" id="hints" aria-label="Clues"></ol>
+      <p class="tried" id="tried" aria-label="Missed guesses"></p>
+      <div class="pips" id="pips" aria-hidden="true"></div>
+      <div class="field" id="field">
+          <ul class="suggest" id="suggest" role="listbox" aria-label="Suggestions" hidden></ul>
+        <input id="guess" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+               placeholder="Name the molecule…" aria-label="Your guess" role="combobox"
+               aria-autocomplete="list" aria-controls="suggest" aria-expanded="false">
+        <kbd class="enter" aria-hidden="true">↵</kbd>
+        <p class="note" id="note"></p>
+      </div>
+    </div>
+    <div class="result" id="result" hidden></div>
+  </section>
+
+  <aside class="pop card" id="stats" role="dialog" tabindex="-1" hidden aria-label="Statistics"></aside>
+  <aside class="pop card" id="archive" role="dialog" tabindex="-1" hidden aria-label="Archive and practice"></aside>
+  <p class="sr-only" id="announce" aria-live="polite" aria-atomic="true"></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+/* tokens.css — Conformer design tokens (PLAN §1.8). System fonts only. */
+
+:root {
+  /* Type */
+  --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: system-ui, -apple-system, "Helvetica Neue", sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --t-12: 12px;
+  --t-13: 13px;
+  --t-15: 15px;
+  --t-19: 19px;
+  --t-24: 24px;
+  --t-30: 30px;
+  --t-answer: clamp(36px, 6cqw, 64px);
+  --t-label: 10px;   /* small caps labels */
+
+  /* Motion */
+  --dur-fast: 120ms;
+  --dur: 220ms;
+  --dur-slow: 480ms;
+  --ease-out: cubic-bezier(.2, .8, .2, 1);
+  --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+  --dur-flip: 480ms;
+  --dur-shake: 360ms;
+  --stagger: 90ms;   /* pips and tiles */
+
+  /* Shape */
+  --radius: 14px;
+  --radius-sm: 9px;
+  --dock-max: 560px;
+
+  /* Colour — dark is the default */
+  color-scheme: dark;
+  --bg: #0e1014;
+  --raised: #161a21;
+  --ink: #ece8df;
+  --muted: #9a968c;
+  --line: #262b35;
+  --accent: #e8b25a;
+  --good: #6fcf97;
+  --cta: #e8b25a;      /* the one filled button */
+  --on-cta: #0e1014;
+  --bad: #e5735f;
+  --glass: rgb(22 26 33 / .72);
+  --shadow: 0 18px 50px -18px rgb(0 0 0 / .7), 0 2px 8px -2px rgb(0 0 0 / .4);
+  --vignette: radial-gradient(120% 90% at 50% 38%, #151922 0%, #0e1014 62%, #0a0b0e 100%);
+  --icon-sun: block;   /* the theme button shows where it will take you */
+  --icon-moon: none;
+}
+
+/* Light: when the system asks for it (unless overridden to dark), or when chosen. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+    --bg: #f6f2ea;
+    --raised: #fffdf8;
+    --ink: #1c1b18;
+    --muted: #6b675e;
+    --line: #ddd6c8;
+    --accent: #9a5a0c;
+    --good: #2a7d4f;
+    --cta: #eab062;
+    --on-cta: #1c1b18;
+    --bad: #c0432f;
+    --glass: rgb(255 253 248 / .78);
+    --shadow: 0 18px 50px -20px rgb(80 60 30 / .35), 0 2px 8px -2px rgb(80 60 30 / .12);
+    --vignette: radial-gradient(120% 90% at 50% 38%, #fbf8f2 0%, #f6f2ea 60%, #ede7db 100%);
+    --icon-sun: none;
+    --icon-moon: block;
+  }
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f6f2ea;
+  --raised: #fffdf8;
+  --ink: #1c1b18;
+  --muted: #6b675e;
+  --line: #ddd6c8;
+  --accent: #9a5a0c;
+  --good: #2a7d4f;
+  --cta: #eab062;
+  --on-cta: #1c1b18;
+  --bad: #c0432f;
+  --glass: rgb(255 253 248 / .78);
+  --shadow: 0 18px 50px -20px rgb(80 60 30 / .35), 0 2px 8px -2px rgb(80 60 30 / .12);
+  --vignette: radial-gradient(120% 90% at 50% 38%, #fbf8f2 0%, #f6f2ea 60%, #ede7db 100%);
+  --icon-sun: none;
+  --icon-moon: block;
+}
